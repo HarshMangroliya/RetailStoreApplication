@@ -2,10 +2,10 @@ import RetailPack.UserOperations;
 
 public class Main {
     public static void main(String[] args) {
+
         boolean f1 = true;
         while(f1) {
-            // The main menu is displayed in the beginning, this menu is wrapped inside an infinite while loop,
-            // It will break when the user chooses to Exit the program
+
             System.out.println("\n1. Register");
             System.out.println("2. Login");
             System.out.println("3. Forgot password");
@@ -13,14 +13,13 @@ public class Main {
             System.out.print("Enter your choice: ");
             int choice = UserOperations.scanner.nextInt();
 
-            /** Nested switch begins here. */
+
             switch (choice) {
                 case 1:
                     // The register method from the UserOperations class is called
                     UserOperations.register();
                     break;
                 case 2:
-                    // If the login method from the UserOperations class returns true, the user is allowed to move ahead
                     /*
                     if (UserOperations.login()) {
                         boolean f2 = true;
@@ -122,5 +121,6 @@ public class Main {
                     break;
             }
         }
+
     }
 }

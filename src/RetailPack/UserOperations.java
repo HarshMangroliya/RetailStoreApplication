@@ -67,7 +67,6 @@ public class UserOperations {
         System.out.println("\nUser registered successfully.");
     }
 
-    /*** Method for user login */
     public static boolean login() {
         System.out.print("\nEnter your username: ");
         String username = scanner.next();
@@ -95,37 +94,6 @@ public class UserOperations {
         return false;
     }
 
-    /**
-     * Method for purchasing books
-     * This method accepts an object to the BookStore class
-     **/
-    /*public static void purchase(BookStore b) {
-        // The wallet balance of the current user is displayed
-        System.out.println("Your wallet balance is : " + active.getBalance());
-
-        // User is asked to enter the Book ID for purchasing the book
-        System.out.print("\nEnter the Book ID for purchasing: ");
-        int bid = scanner.nextInt();
-
-        // The sellBook method is called from the BookStore class
-        int result = b.sellBook(bid, UserOperations.active);
-
-        // Depending on the returned value form the sellBook method (-1, 1, or 0) a message is displayed to the current user
-        if(result == 1) {
-            System.out.println("\nBook Purchased successfully");
-        }
-        else if (result == -1) {
-            System.out.println("Your wallet balance is not sufficient");
-        }
-        else {
-            System.out.println("Book is out of stock");
-        }
-    }*/
-
-    /**
-     * Method for resetting password
-     * This method takes the fullname, username of the user for validation before allowing to reset the password
-     **/
     public static boolean resetPassword() {
         System.out.print("\nEnter your fullname: ");
         String fname = null , lname = null;
@@ -136,7 +104,7 @@ public class UserOperations {
         String username = scanner.next();
         User user = UserOperations.users.get(username);
 
-        /*** Only the existing user can reset the password. */
+
         if (user != null && user.getUsername().equals(username) && user.getFullname().equals(fullname)) {
             boolean flag = true;
             while(flag) {
@@ -170,13 +138,37 @@ public class UserOperations {
         return false;
     }
 
-    /** This method sets the current user object as null and logs the user out */
     public static boolean logout() {
         UserOperations.active = null;
         return true;
     }
 
-    /*** HashMap iterator for displaying all the users. (for debugging purpose only) */
+
+    /*public static void purchase(BookStore b) {
+        // The wallet balance of the current user is displayed
+        System.out.println("Your wallet balance is : " + active.getBalance());
+
+        // User is asked to enter the Book ID for purchasing the book
+        System.out.print("\nEnter the Book ID for purchasing: ");
+        int bid = scanner.nextInt();
+
+        // The sellBook method is called from the BookStore class
+        int result = b.sellBook(bid, UserOperations.active);
+
+        // Depending on the returned value form the sellBook method (-1, 1, or 0) a message is displayed to the current user
+        if(result == 1) {
+            System.out.println("\nBook Purchased successfully");
+        }
+        else if (result == -1) {
+            System.out.println("Your wallet balance is not sufficient");
+        }
+        else {
+            System.out.println("Book is out of stock");
+        }
+    }*/
+
+
+
     public static void printUser() {
         Iterator<Map.Entry<String, User>> new_Iterator = UserOperations.users.entrySet().iterator();
 
@@ -189,4 +181,5 @@ public class UserOperations {
             System.out.println(new_Map.getKey() + "  fn:" + temp.getFullname() + " u:" + temp.getUsername() + " p:" + temp.getPassword() + "\n");
         }
     }
+
 }
