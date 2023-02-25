@@ -1,17 +1,19 @@
 package RetailPack;
 
-public class User {
+public abstract class User extends ParentUser{
 
-    private String username;
-    private String password;
-    private String fullname;
+
     private int balance;
+    private boolean isMember;
 
-    public User(String username, String password, String fullname, int balance) {
+    public User(String username, String password, String fullname, boolean isMember,int balance,int utype) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+        this.isMember = isMember;
         this.balance = balance;
+        this.userType = utype;
+
     }
 
     public User(String username, String password) {
@@ -19,28 +21,18 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean getMembership() {
+        return isMember;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-   public int getBalance() {
+    public int getBalance() {
         return balance;
-    }
-
-    public void setPassword(String newPass) {
-        this.password = newPass;
     }
 
     public void updateBalance(int amt){
         this.balance -= amt;
     }
+
+    abstract double getDiscount();
 
 }
