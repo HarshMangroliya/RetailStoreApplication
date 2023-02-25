@@ -1,3 +1,4 @@
+import RetailPack.Product;
 import RetailPack.UserOperations;
 
 public class Main {
@@ -20,92 +21,166 @@ public class Main {
                     UserOperations.register();
                     break;
                 case 2:
-                    /*
-                    if (UserOperations.login()) {
-                        boolean f2 = true;
-                        while(f2){
-                            // The menu is displayed after the user has successfully logged in,
-                            // This menu is wrapped inside an infinite while loop
-                            System.out.println("\nWelcome, "+UserOperations.active.getFullname());
-                            bookstore.displayBooks();
-                            System.out.println("\n1. Show Profile");
-                            System.out.println("2. Purchase");
-                            System.out.println("3. Logout");
-                            System.out.print("Enter your choice: ");
-                            choice = UserOperations.scanner.nextInt();
 
-                            switch (choice) {
-                                case 1:
-                                    boolean f3 = true;
-                                    boolean flag = false;
-                                    while(f3){
-                                        // This menu is displayed after the user selects the Show Profile option
-                                        // This menu is also wrapped inside an infinite while loop
-                                        System.out.println("\nPurchase History :");
+                    if (UserOperations.login() ) {
 
-                                        // The complete list of the books bought by the user is displayed from the purchaseDB ArrayList
-                                        for(int i = 0 ; i < bookstore.purchaseDB.size() ; i++){
-                                            PurchaseDetails pd =  bookstore.purchaseDB.get(i);
-                                            if(pd.returnUsername().equals(UserOperations.active.getUsername())){
-                                                if(!flag)
-                                                    System.out.println("Book ID\tBook Name\t\tPrice");
+                        if(UserOperations.active.userType == 1){
+                            //Admin
+                            boolean f2 = true;
+                            while(f2){
 
-                                                // The printRecord method is called which returns the books purchased by the current user
-                                                pd.printRecord();
-                                                flag = true;
-                                            }
-                                        }
-                                        // The following if block handles the case when there are no books purchased by the current user
-                                        if(!flag)
-                                            System.out.println("\nNo record found");
+                                // The menu is displayed after the user has successfully logged in,
+                                // This menu is wrapped inside an infinite while loop
+                                System.out.println("\nWelcome Admin, "+UserOperations.active.getFullname());
+                                UserOperations.displayProducts();
+                                System.out.println("\n1. Add Product");
+                                System.out.println("2. Calculate fine");
+                                System.out.println("3. Calculate Total profit");
+                                System.out.println("4. Set dicount Rate");
+                                System.out.println("5. Logout");
+                                System.out.print("Enter your choice: ");
+                                choice = UserOperations.scanner.nextInt();
 
-                                        // The wallet balance of the current user is displayed
-                                        System.out.println("\nYour wallet balance : " + UserOperations.active.getBalance());
+                                switch (choice) {
 
-                                        // The following menu is displayed to the user
-                                        System.out.println("\n1. Back to catalog");
-                                        System.out.println("2. Logout");
-                                        System.out.print("Enter your choice: ");
-                                        choice = UserOperations.scanner.nextInt();
-                                        switch (choice) {
-                                            case 1:
-                                                f3 = false;
-                                                break;
-                                            case 2:
-                                                if(UserOperations.logout()) {
-                                                    System.out.println("\nUser logged out successfully.");
-                                                    f3 = false;
-                                                    f2 = false;
-                                                }
-                                                break;
-                                            default:
-                                                System.out.println("\nInvalid choice.");
-                                                break;
-                                        }
+                                    case 1: {
+                                        UserOperations.addProduct();
+                                        break;
                                     }
-                                    break;
-                                case 2:
-                                    System.out.println("\n");
 
-                                    // All the books are displayed that are available in the books ArrayList in the BookStore class
-                                    bookstore.displayBooks();
-
-                                    // The user is asked for the book id for purchasing
-                                    UserOperations.purchase(bookstore);
-                                    break;
-                                case 3:
-                                    if(UserOperations.logout()) {
-                                        System.out.println("\nUser logged out successfully.");
-                                        f2 = false;
+                                    case 2: {
+                                        UserOperations.calFine();
+                                        break;
                                     }
-                                    break;
-                                default:
-                                    System.out.println("\nInvalid choice.");
-                                    break;
+
+                                    case 3: {
+                                        UserOperations.calTotalProfit();
+                                        break;
+                                    }
+
+                                    case 4:{
+                                        UserOperations.setDiscountRate();
+                                        break;
+                                    }
+
+                                    case 5: {
+                                        if (UserOperations.logout()) {
+                                            System.out.println("\nUser logged out successfully.");
+                                            f2 = false;
+                                        }
+                                        break;
+                                    }
+
+                                    default: {
+                                        System.out.println("\nInvalid choice.");
+                                        break;
+                                    }
+
+                                }
                             }
                         }
+
+                        if(UserOperations.active.userType == 2){
+                            //Customer
+                            /*
+                            boolean f2 = true;
+                            while(f2){
+
+                                // The menu is displayed after the user has successfully logged in,
+                                // This menu is wrapped inside an infinite while loop
+                                System.out.println("\nWelcome, "+UserOperations.active.getFullname());
+                                bookstore.displayBooks();
+                                System.out.println("\n1. Show Profile");
+                                System.out.println("2. Purchase");
+                                System.out.println("3. Logout");
+                                System.out.print("Enter your choice: ");
+                                choice = UserOperations.scanner.nextInt();
+
+                                switch (choice) {
+
+                                    case 1: {
+                                        boolean f3 = true;
+                                        boolean flag = false;
+                                        while (f3) {
+                                            // This menu is displayed after the user selects the Show Profile option
+                                            // This menu is also wrapped inside an infinite while loop
+                                            System.out.println("\nPurchase History :");
+
+                                            // The complete list of the books bought by the user is displayed from the purchaseDB ArrayList
+                                            for (int i = 0; i < bookstore.purchaseDB.size(); i++) {
+                                                PurchaseDetails pd = bookstore.purchaseDB.get(i);
+                                                if (pd.returnUsername().equals(UserOperations.active.getUsername())) {
+                                                    if (!flag)
+                                                        System.out.println("Book ID\tBook Name\t\tPrice");
+
+                                                    // The printRecord method is called which returns the books purchased by the current user
+                                                    pd.printRecord();
+                                                    flag = true;
+                                                }
+                                            }
+                                            // The following if block handles the case when there are no books purchased by the current user
+                                            if (!flag)
+                                                System.out.println("\nNo record found");
+
+                                            // The wallet balance of the current user is displayed
+                                            System.out.println("\nYour wallet balance : " + UserOperations.active.getBalance());
+
+                                            // The following menu is displayed to the user
+                                            System.out.println("\n1. Back to catalog");
+                                            System.out.println("2. Logout");
+                                            System.out.print("Enter your choice: ");
+                                            choice = UserOperations.scanner.nextInt();
+                                            switch (choice) {
+                                                case 1:
+                                                    f3 = false;
+                                                    break;
+                                                case 2:
+                                                    if (UserOperations.logout()) {
+                                                        System.out.println("\nUser logged out successfully.");
+                                                        f3 = false;
+                                                        f2 = false;
+                                                    }
+                                                    break;
+                                                default:
+                                                    System.out.println("\nInvalid choice.");
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    }
+
+                                    case 2: {
+                                        System.out.println("\n");
+
+                                        // All the books are displayed that are available in the books ArrayList in the BookStore class
+                                        bookstore.displayBooks();
+
+                                        // The user is asked for the book id for purchasing
+                                        UserOperations.purchase(bookstore);
+                                        break;
+                                    }
+
+                                    case 3: {
+                                        if (UserOperations.logout()) {
+                                            System.out.println("\nUser logged out successfully.");
+                                            f2 = false;
+                                        }
+                                        break;
+                                    }
+
+                                    default: {
+                                        System.out.println("\nInvalid choice.");
+                                        break;
+                                    }
+
+                                }
+                            }
+                            */
+                        }
+
+
                     }
-                    */
+
                     break;
                 case 3:
                     //UserOperations.printUser();
