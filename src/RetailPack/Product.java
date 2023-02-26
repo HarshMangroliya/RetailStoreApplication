@@ -1,12 +1,12 @@
 package RetailPack;
 
 public class Product {
-    private int productID;
-    private String productName;
-    private int qty;
-    private int returnPeriod;
+    public int productID;
+    public String productName;
+    public int qty;
+    public int returnPeriod;
     private double  basePrice;
-    private double sellPrice;
+    public double sellPrice;
 
     public Product(int ProductID,String ProductName,int Qty,int returnPeriod,double basePrice,double sellPrice){
         this.productID = ProductID;
