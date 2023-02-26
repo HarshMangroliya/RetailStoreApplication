@@ -14,8 +14,6 @@ public class PurchaseDetail extends Product{
         this.isReturned = false;
         this.issueDate = LocalDate.now();
 
-
-
         /*
         import java.time.Period;
 

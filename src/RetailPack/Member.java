@@ -12,6 +12,6 @@ public class Member extends User {
 
     @Override
     double getDiscount() {
-        return UserOperations.discountRate;
+        return RetailStore.discountRate;
     }
 }

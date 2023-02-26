@@ -1,10 +1,16 @@
-import RetailPack.Product;
-import RetailPack.RetailStore;
-import RetailPack.User;
-import RetailPack.UserOperations;
+import RetailPack.*;
 
 public class Main {
     public static void main(String[] args) {
+
+        UserOperations.users.put("a",new Admin("a","a","Admin bhai",1));
+        UserOperations.users.put("m",new Member("m", "m", "Member bhai", true, 100,2));
+        UserOperations.users.put("nm",new NonMemeber("nm", "nm", "Non-Member bhai", false, 100,2));
+
+        RetailStore.products.add(new Product(1,"Apple",4,15,95,100));
+        RetailStore.products.add(new Product(2,"Ball",6,15,5,10));
+        RetailStore.products.add(new Product(3,"Cup",8,15,15,30));
+        RetailStore.products.add(new Product(4,"Doll",10,15,25,50));
 
         boolean f1 = true;
         while(f1) {
@@ -34,7 +40,7 @@ public class Main {
                                 // The menu is displayed after the user has successfully logged in,
                                 // This menu is wrapped inside an infinite while loop
                                 System.out.println("\nWelcome Admin, "+UserOperations.active.getFullname());
-                                RetailStore.displayProducts();
+                                RetailStore.adminDisplayProducts();
                                 System.out.println("\n1. Add Product");
                                 System.out.println("2. Calculate fine");
                                 System.out.println("3. Calculate Total profit");
@@ -82,7 +88,7 @@ public class Main {
                             }
                         }
 
-                        if(UserOperations.active.userType == 2){
+                        else if (UserOperations.active.userType == 2){
                             //Customer
 
                             boolean f2 = true;
@@ -122,7 +128,7 @@ public class Main {
                                     }
 
                                     case 3: {
-                                        RetailStore.displayProducts();
+                                        RetailStore.purchaseDetail();
                                         break;
                                     }
 

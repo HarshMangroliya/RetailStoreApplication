@@ -4,7 +4,7 @@ import java.util.*;
 
 public class UserOperations {
 
-    protected static HashMap<String, ParentUser> users = new HashMap<>();
+    public static HashMap<String, ParentUser> users = new HashMap<>();
 
 
     private static String AdminKey = "Admin@123";
@@ -175,14 +175,6 @@ public class UserOperations {
 
     public static boolean login() {
 
-        UserOperations.users.put("a",new Admin("a","a","Admin bhai",1));
-        UserOperations.users.put("m",new Member("m", "m", "Member bhai", true, 100,2));
-        UserOperations.users.put("nm",new NonMemeber("nm", "nm", "Non-Member bhai", false, 100,2));
-
-        RetailStore.products.add(new Product(1,"Apple",4,15,95,100));
-        RetailStore.products.add(new Product(2,"Ball",6,15,5,10));
-        RetailStore.products.add(new Product(3,"Cup",8,15,15,30));
-        RetailStore.products.add(new Product(4,"Doll",10,15,25,50));
 
         System.out.print("\nEnter your username: ");
         String username = scanner.next();

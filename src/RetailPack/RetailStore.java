@@ -12,15 +12,33 @@ public class RetailStore {
     public static double discountRate = 0;
 
     public static void addProduct(){
-        int productID;
+        int productID = 0;
         String productName;
         int qty;
         int returnPeriod;
         double  basePrice;
         double sellPrice;
 
-        System.out.print("\nEnter product ID : ");
-        productID = UserOperations.scanner.nextInt();
+        boolean ch = true;
+        boolean tm = true;
+
+        while(ch) {
+            System.out.print("\nEnter product ID : ");
+            productID = UserOperations.scanner.nextInt();
+            tm = true;
+
+            for (int i = 0; i < products.size(); i++) {
+                Product tmp = products.get(i);
+                if (tmp.productID == productID) {
+                    tm = false;
+                    System.out.println("Product ID already exist please enter Another Product ID");
+                    break;
+                }
+            }
+            if(tm){
+                ch = false;
+            }
+        }
 
         System.out.print("\nEnter product name : ");
         productName = UserOperations.scanner.next();
@@ -37,13 +55,15 @@ public class RetailStore {
         System.out.print("Enter product sell price : ");
         sellPrice = UserOperations.scanner.nextInt();
 
+
+
         products.add(new Product(productID,productName,qty,returnPeriod,basePrice,sellPrice));
 
         System.out.println("Product Added successfully");
 
     }
 
-    public static void displayProducts() {
+    public static void adminDisplayProducts() {
         System.out.println("------------------ List of Books -----------------------");
         System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tbase price  \tSell price");
 
@@ -52,6 +72,31 @@ public class RetailStore {
 
             Product tmp = products.get(i);
             System.out.println(tmp.getProductID()+"\t"+tmp.getProductName()+"\t"+ tmp.getQty()+"\t"+tmp.getReturnPeriod()+"\t"+tmp.getBasePrice()+"\t"+tmp.getSellPrice());
+
+        }
+    }
+
+    public static void displayProducts() {
+
+        tmp = (User) UserOperations.active;
+        System.out.println("------------------ List of Books -----------------------");
+        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price");
+
+
+        // It iterates through the books ArrayList and display all the books
+        for (int i = 0; i < products.size(); i++) {
+
+            Product tmp1 = products.get(i);
+            double sellPrice;
+
+            if( tmp.getMembership() ) {
+                /*System.out.println("Yes calling");*/
+                sellPrice = tmp1.sellPrice - (tmp1.sellPrice * discountRate);
+            }
+            else
+                sellPrice = tmp1.sellPrice;
+
+            System.out.println(tmp1.getProductID()+"\t"+tmp1.getProductName()+"\t"+ tmp1.getQty()+"\t"+tmp1.getReturnPeriod()+"\t"+sellPrice);
 
         }
     }
@@ -80,7 +125,7 @@ public class RetailStore {
     }
 
     public static int purchaseProduct(){
-
+        tmp = (User) UserOperations.active;
         System.out.println("Your wallet balance is : " + tmp.getBalance());
 
         System.out.print("\nEnter the Product ID for purchasing: ");
@@ -104,8 +149,7 @@ public class RetailStore {
                     tmp.updateBalance(p.sellPrice);
                     p.qty--;
 
-                    PurchaseDetail pd = new PurchaseDetail(p, tmp.getUsername(),sellPrice);
-                    PurchaseDB.add(pd);
+                    PurchaseDB.add(new PurchaseDetail(p, tmp.getUsername(),sellPrice));
                     return 1;
                 }
                 else {
@@ -118,8 +162,11 @@ public class RetailStore {
     }
 
     public static void purchaseDetail(){
+
+        tmp = (User) UserOperations.active;
         System.out.println("------------------ Purchase Detail -----------------------");
         System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate");
+
 
         // It iterates through the books ArrayList and display all the books
         for (int i = 0; i < PurchaseDB.size(); i++) {
