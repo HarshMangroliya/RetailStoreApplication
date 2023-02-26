@@ -3,10 +3,10 @@ package RetailPack;
 public abstract class User extends ParentUser{
 
 
-    private int balance;
+    private double balance;
     private boolean isMember;
 
-    public User(String username, String password, String fullname, boolean isMember,int balance,int utype) {
+    public User(String username, String password, String fullname, boolean isMember,double balance,int utype) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
@@ -25,11 +25,11 @@ public abstract class User extends ParentUser{
         return isMember;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void updateBalance(int amt){
+    public void updateBalance(double amt){
         this.balance -= amt;
     }
 
