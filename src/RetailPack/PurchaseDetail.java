@@ -2,7 +2,8 @@ package RetailPack;
 
 import java.time.LocalDate;
 
-public class PurchaseDetail extends Product{
+// This class calculates the fine for the late returned/replaced products after subtracting the date of return from date of purchase
+public class PurchaseDetail extends Product {
     private LocalDate issueDate;
     private LocalDate returnDate;
     private boolean isReturned;
@@ -23,7 +24,6 @@ public class PurchaseDetail extends Product{
         Period period = Period.between(from, to);
 
         */
-
     }
 
     public String getUsername(){
@@ -33,5 +33,4 @@ public class PurchaseDetail extends Product{
     public LocalDate getIssueDate(){
         return this.issueDate;
     }
-
 }
