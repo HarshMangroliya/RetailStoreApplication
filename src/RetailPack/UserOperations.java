@@ -3,25 +3,25 @@ package RetailPack;
 import java.util.*;
 
 public class UserOperations {
-
+    // HashMap for storing users
     public static HashMap<String, ParentUser> users = new HashMap<>();
-
-
+    // Hardcoded key for the Admin
     private static String AdminKey = "Admin@123";
-
+    // scanner object
     public  static Scanner scanner = new Scanner(System.in);
+    // Object for current active user
     public static ParentUser active;
+    // variable for setting discount rate
+    public static double discountRate = 0;
 
+    // method for registering new admins and customers
     public static void register() {
-
         boolean f = true;
         while(f){
-
             int choice;
             System.out.println("Register as : \n1)Customer \n2)Admin \n3)Exit");
             System.out.print("Enter your choice : ");
             choice = scanner.nextInt();
-
             switch (choice){
                 case 1: {
                     System.out.print("\nEnter your full name: ");
@@ -34,13 +34,13 @@ public class UserOperations {
                     String username = scanner.next();
 
                     ParentUser user = UserOperations.users.get(username);
+
                     if (user != null && user.getUsername().equals(username)) {
                         boolean flag = true;
                         while (flag) {
                             System.out.println("\nUser already exists.");
                             System.out.print("Enter your username: ");
                             username = scanner.next();
-
                             if (!user.getUsername().equals(username))
                                 flag = false;
                         }
@@ -49,21 +49,22 @@ public class UserOperations {
                     String password1 = null, password2 = null;
                     boolean f1 = true;
                     while (f1) {
-                        //uncomment the following lines for running in intelliJ IDEA
+                        // Uncomment the following lines for running in intelliJ IDEA
                         System.out.print("Enter your password: ");
                         password1 = scanner.next();
                         System.out.print("Re-enter your password: ");
                         password2 = scanner.next();
 
-                        //uncomment the following lines for running in VS Code
-                        //Console cnsl = System.console();
-                        //if(cnsl == null) {
-                        //    System.out.println("No console available.");
-                        //}
-                        //char[] passwd1 = cnsl.readPassword("Enter your password: ");
-                        //password1 = new String(passwd1);
-                        //char[] passwd2 = cnsl.readPassword("Re-enter your password: ");
-                        //password2 = new String(passwd2);
+                        // Uncomment the following lines for running in VS Code
+                        /*Console cnsl = System.console();
+                        if(cnsl == null) {
+                            System.out.println("No console available.");
+                        }
+                        char[] passwd1 = cnsl.readPassword("Enter your password: ");
+                        password1 = new String(passwd1);
+                        char[] passwd2 = cnsl.readPassword("Re-enter your password: ");
+                        password2 = new String(passwd2);
+                        */
 
                         if (password1.equals(password2))
                             f1 = false;
@@ -72,7 +73,7 @@ public class UserOperations {
                     }
 
                     int isMember;
-                    System.out.print("Would you like to be a Member? (Yes: 1 / No: 0) : ");
+                    System.out.print("Would you like to be a Member? (Yes: 1, No: 0) : ");
                     isMember = scanner.nextInt();
 
                     if (isMember == 1)
@@ -86,9 +87,6 @@ public class UserOperations {
                 }
 
                 case 2:{
-
-
-
                     System.out.print("\nEnter your full name: ");
                     String fname = null, lname = null;
                     fname = scanner.next();
@@ -114,21 +112,22 @@ public class UserOperations {
                     String password1 = null, password2 = null;
                     boolean f1 = true;
                     while (f1) {
-                        //uncomment the following lines for running in intelliJ IDEA
+                        // Uncomment the following lines for running in intelliJ IDEA
                         System.out.print("Enter your password: ");
                         password1 = scanner.next();
                         System.out.print("Re-enter your password: ");
                         password2 = scanner.next();
 
-                        //uncomment the following lines for running in VS Code
-                        //Console cnsl = System.console();
-                        //if(cnsl == null) {
-                        //    System.out.println("No console available.");
-                        //}
-                        //char[] passwd1 = cnsl.readPassword("Enter your password: ");
-                        //password1 = new String(passwd1);
-                        //char[] passwd2 = cnsl.readPassword("Re-enter your password: ");
-                        //password2 = new String(passwd2);
+                        // Uncomment the following lines for running in VS Code
+                        /*Console cnsl = System.console();
+                          if(cnsl == null) {
+                              System.out.println("No console available.");
+                          }
+                          char[] passwd1 = cnsl.readPassword("Enter your password: ");
+                          password1 = new String(passwd1);
+                          char[] passwd2 = cnsl.readPassword("Re-enter your password: ");
+                          password2 = new String(passwd2);
+                         */
 
                         if (password1.equals(password2))
                             f1 = false;
@@ -149,7 +148,6 @@ public class UserOperations {
                         key = scanner.next();
 
                         if(key.equals(AdminKey)){
-
                             UserOperations.users.put(username, new Admin(username, password1, fullname,1));
                             System.out.println("\nAdmin registered successfully.");
                             break;
@@ -168,14 +166,10 @@ public class UserOperations {
                 default:
                     System.out.println("Please Enter valid choice !");
             }
-
         }
-
     }
 
     public static boolean login() {
-
-
         System.out.print("\nEnter your username: ");
         String username = scanner.next();
 
@@ -183,14 +177,13 @@ public class UserOperations {
         System.out.print("Enter your password: ");
         String password = scanner.next();
 
-
         //uncomment the following lines for running in VS Code
-                        /*  Console cnsl = System.console();
-                        if(cnsl == null)
-                            System.out.println("No console available.");
+        /*  Console cnsl = System.console();
+             if(cnsl == null)
+             System.out.println("No console available.");
 
-                        char[] passwd = cnsl.readPassword("Enter password: ");
-                        String password = new String(passwd);*/
+             char[] passwd = cnsl.readPassword("Enter password: ");
+             String password = new String(passwd);*/
 
         ParentUser user = UserOperations.users.get(username);
         if (user != null && user.getPassword().equals(password) ){
@@ -200,7 +193,6 @@ public class UserOperations {
         } else {
             System.out.println("\nLogin failed. Invalid username or password.");
         }
-
         return false;
     }
 
@@ -253,7 +245,7 @@ public class UserOperations {
     }
 
     public static boolean logout() {
-        UserOperations.active = null;
+        //UserOperations.active = null;
         return true;
     }
 
@@ -269,5 +261,4 @@ public class UserOperations {
             System.out.println(new_Map.getKey() + "  fn:" + temp.getFullname() + " u:" + temp.getUsername() + " p:" + temp.getPassword() + "\n");
         }
     }
-
 }
