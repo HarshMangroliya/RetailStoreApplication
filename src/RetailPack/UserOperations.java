@@ -7,10 +7,6 @@ public class UserOperations {
     protected static HashMap<String, ParentUser> users = new HashMap<>();
 
 
-    public static double discountRate = 0;
-
-    public static ArrayList<Product> products = new ArrayList<>();
-
     private static String AdminKey = "Admin@123";
 
     public  static Scanner scanner = new Scanner(System.in);
@@ -183,10 +179,10 @@ public class UserOperations {
         UserOperations.users.put("m",new Member("m", "m", "Member bhai", true, 100,2));
         UserOperations.users.put("nm",new NonMemeber("nm", "nm", "Non-Member bhai", false, 100,2));
 
-        products.add(new Product(1,"Apple",4,15,95,100));
-        products.add(new Product(2,"Ball",6,15,5,10));
-        products.add(new Product(3,"Cup",8,15,15,30));
-        products.add(new Product(4,"Doll",10,15,25,50));
+        RetailStore.products.add(new Product(1,"Apple",4,15,95,100));
+        RetailStore.products.add(new Product(2,"Ball",6,15,5,10));
+        RetailStore.products.add(new Product(3,"Cup",8,15,15,30));
+        RetailStore.products.add(new Product(4,"Doll",10,15,25,50));
 
         System.out.print("\nEnter your username: ");
         String username = scanner.next();
@@ -267,74 +263,6 @@ public class UserOperations {
     public static boolean logout() {
         UserOperations.active = null;
         return true;
-    }
-
-    public static void addProduct(){
-        int productID;
-        String productName;
-        int qty;
-        int returnPeriod;
-        double  basePrice;
-        double sellPrice;
-
-        System.out.print("\nEnter product ID : ");
-        productID = scanner.nextInt();
-
-        System.out.print("\nEnter product name : ");
-        productName = scanner.next();
-
-        System.out.print("Enter product Qty : ");
-        qty = scanner.nextInt();
-
-        System.out.print("Enter product Return period : ");
-        returnPeriod = scanner.nextInt();
-
-        System.out.print("Enter product Base price : ");
-        basePrice = scanner.nextInt();
-
-        System.out.print("Enter product sell price : ");
-        sellPrice = scanner.nextInt();
-
-        products.add(new Product(productID,productName,qty,returnPeriod,basePrice,sellPrice));
-
-        System.out.println("Product Added successfully");
-
-    }
-
-    public static void displayProducts() {
-        System.out.println("------------------ List of Books -----------------------");
-        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tbase price  \tSell price");
-
-        // It iterates through the books ArrayList and display all the books
-        for (int i = 0; i < products.size(); i++) {
-
-            Product tmp = products.get(i);
-            System.out.println(tmp.getProductID()+"\t"+tmp.getProductName()+"\t"+ tmp.getQty()+"\t"+tmp.getReturnPeriod()+"\t"+tmp.getBasePrice()+"\t"+tmp.getSellPrice());
-
-        }
-    }
-
-    public static void calFine(){
-
-        Admin tmp = (Admin) active;
-
-        //tmp.calculateFine();
-
-    }
-
-    public static void calTotalProfit(){
-        double profit = 0;
-
-        for (int i = 0; i < products.size(); i++) {
-            Product tmp = products.get(i);
-            profit += (tmp.getSellPrice() - tmp.getBasePrice()) * tmp.getQty();
-        }
-        System.out.println("Expected Profit is : "+profit);
-    }
-
-    public static void setDiscountRate(){
-        System.out.print("Current rate : "+discountRate+"%\nEnter Discount rate : ");
-        UserOperations.discountRate = scanner.nextDouble();
     }
 
     public static void printUser() {
