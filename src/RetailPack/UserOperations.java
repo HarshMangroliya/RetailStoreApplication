@@ -11,6 +11,10 @@ public class UserOperations {
 
     public  static Scanner scanner = new Scanner(System.in);
     public static ParentUser active;
+    public static Admin PAdmin ;
+    public static User PUser;
+
+
 
     public static void register() {
 

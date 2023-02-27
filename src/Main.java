@@ -4,13 +4,13 @@ public class Main {
     public static void main(String[] args) {
 
         UserOperations.users.put("a",new Admin("a","a","Admin bhai",1));
-        UserOperations.users.put("m",new Member("m", "m", "Member bhai", true, 100,2));
-        UserOperations.users.put("nm",new NonMemeber("nm", "nm", "Non-Member bhai", false, 100,2));
+        UserOperations.users.put("m",new Member("m", "m", "Member bhai", true, 1000,2));
+        UserOperations.users.put("nm",new NonMemeber("nm", "nm", "Non-Member bhai", false, 1000,2));
 
-        RetailStore.products.add(new Product(1,"Apple",4,15,95,100));
-        RetailStore.products.add(new Product(2,"Ball",6,15,5,10));
-        RetailStore.products.add(new Product(3,"Cup",8,15,15,30));
-        RetailStore.products.add(new Product(4,"Doll",10,15,25,50));
+        RetailStore.products.add(new Product(101,"Appl",4,5,95,100));
+        RetailStore.products.add(new Product(102,"Ball",6,9,5,10));
+        RetailStore.products.add(new Product(103,"Cupp",8,3,15,30));
+        RetailStore.products.add(new Product(104,"Doll",10,15,25,50));
 
         boolean f1 = true;
         while(f1) {
@@ -31,9 +31,10 @@ public class Main {
                 case 2:
 
                     if (UserOperations.login() ) {
-
+                        System.out.println("---------------------------------------------------------------------");
                         if(UserOperations.active.userType == 1){
                             //Admin
+                            UserOperations.PAdmin = (Admin) UserOperations.active;
                             boolean f2 = true;
                             while(f2){
 
@@ -45,7 +46,8 @@ public class Main {
                                 System.out.println("2. Calculate fine");
                                 System.out.println("3. Calculate Total profit");
                                 System.out.println("4. Set discount Rate");
-                                System.out.println("5. Logout");
+                                System.out.println("5. Set Fine rate Rate");
+                                System.out.println("6. Logout");
                                 System.out.print("Enter your choice: ");
                                 choice = UserOperations.scanner.nextInt();
 
@@ -57,7 +59,7 @@ public class Main {
                                     }
 
                                     case 2: {
-                                        RetailStore.calFine();
+                                        RetailStore.calculateFine();
                                         break;
                                     }
 
@@ -70,8 +72,12 @@ public class Main {
                                         RetailStore.setDiscountRate();
                                         break;
                                     }
+                                    case 5:{
+                                        RetailStore.setFineRate();
+                                        break;
+                                    }
 
-                                    case 5: {
+                                    case 6: {
                                         if (UserOperations.logout()) {
                                             System.out.println("\nUser logged out successfully.");
                                             f2 = false;
@@ -90,7 +96,7 @@ public class Main {
 
                         else if (UserOperations.active.userType == 2){
                             //Customer
-
+                            UserOperations.PUser = (User) UserOperations.active;
                             boolean f2 = true;
                             while(f2) {
                                 System.out.println("\nWelcome Customer, " + UserOperations.active.getFullname());
@@ -115,6 +121,9 @@ public class Main {
                                         else if (result == -1) {
                                             System.out.println("Your wallet balance is not sufficient");
                                         }
+                                        else if (result == -2) {
+                                            System.out.println("Invalid Product ID");
+                                        }
                                         else {
                                             System.out.println("Product is out of stock");
                                         }
@@ -123,11 +132,12 @@ public class Main {
                                     }
 
                                     case 2: {
-
+                                        RetailStore.cancelPurchase();
                                         break;
                                     }
 
                                     case 3: {
+                                        System.out.println("Your wallet balance is : " + UserOperations.PUser.getBalance());
                                         RetailStore.purchaseDetail();
                                         break;
                                     }

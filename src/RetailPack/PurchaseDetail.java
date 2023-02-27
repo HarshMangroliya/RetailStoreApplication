@@ -3,16 +3,24 @@ package RetailPack;
 import java.time.LocalDate;
 
 public class PurchaseDetail extends Product{
-    private LocalDate issueDate;
-    private LocalDate returnDate;
-    private boolean isReturned;
+    public int cnt;
     private String Username;
+    public LocalDate issueDate;
+    public boolean isReturned;
+    public LocalDate returnDate;
+    public double fine;
+
+
+
 
     public PurchaseDetail(Product tmp, String username, double sellPrice) {
-        super(tmp.productID, tmp.productName, tmp.qty,  tmp.returnPeriod, tmp.getBasePrice(), sellPrice);
+        super(tmp.productID, tmp.productName, 1,  tmp.returnPeriod, tmp.getBasePrice(), sellPrice);
         this.Username = username;
         this.isReturned = false;
-        this.issueDate = LocalDate.now();
+        this.issueDate = LocalDate.now().minusDays(10);
+        this.fine = 0;
+        this.cnt = ++RetailStore.cnt;
+
 
         /*
         import java.time.Period;

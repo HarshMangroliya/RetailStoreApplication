@@ -1,15 +1,18 @@
 package RetailPack;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class RetailStore {
 
     public static ArrayList<Product> products = new ArrayList<>();
     public static ArrayList<PurchaseDetail> PurchaseDB = new ArrayList<>();
+    public static int cnt = 0;
 
-    static User tmp = (User) UserOperations.active;
 
-    public static double discountRate = 0;
+    public static double discountRate = 0.05;
+    public static double fineRate = 0.01;
+
 
     public static void addProduct(){
         int productID = 0;
@@ -64,7 +67,7 @@ public class RetailStore {
     }
 
     public static void adminDisplayProducts() {
-        System.out.println("------------------ List of Books -----------------------");
+        System.out.println("------------------ List of Products -----------------------");
         System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tbase price  \tSell price");
 
         // It iterates through the books ArrayList and display all the books
@@ -78,36 +81,30 @@ public class RetailStore {
 
     public static void displayProducts() {
 
-        tmp = (User) UserOperations.active;
-        System.out.println("------------------ List of Books -----------------------");
+        boolean f1 = UserOperations.PUser.getMembership();
+
+        System.out.println("------------------ List of Products -----------------------");
         System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price");
 
 
         // It iterates through the books ArrayList and display all the books
         for (int i = 0; i < products.size(); i++) {
 
-            Product tmp1 = products.get(i);
-            double sellPrice;
+            Product pro = products.get(i);
+            double sellPrice = 0;
 
-            if( tmp.getMembership() ) {
+            if( f1 ) {
                 /*System.out.println("Yes calling");*/
-                sellPrice = tmp1.sellPrice - (tmp1.sellPrice * discountRate);
+                sellPrice = pro.sellPrice - (pro.sellPrice * discountRate);
             }
             else
-                sellPrice = tmp1.sellPrice;
+                sellPrice = pro.sellPrice;
 
-            System.out.println(tmp1.getProductID()+"\t"+tmp1.getProductName()+"\t"+ tmp1.getQty()+"\t"+tmp1.getReturnPeriod()+"\t"+sellPrice);
+            System.out.println(pro.getProductID()+"\t"+pro.getProductName()+"\t"+ pro.getQty()+"\t"+pro.getReturnPeriod()+"\t"+sellPrice);
 
         }
     }
 
-    public static void calFine(){
-
-        Admin tmp = (Admin) UserOperations.active;
-
-        //tmp.calculateFine();
-
-    }
 
     public static void calTotalProfit(){
         double profit = 0;
@@ -124,32 +121,40 @@ public class RetailStore {
         discountRate = UserOperations.scanner.nextDouble();
     }
 
+    public static void setFineRate(){
+        System.out.print("Current rate : "+fineRate+"%\nEnter Discount rate : ");
+        fineRate = UserOperations.scanner.nextDouble();
+    }
+
     public static int purchaseProduct(){
-        tmp = (User) UserOperations.active;
-        System.out.println("Your wallet balance is : " + tmp.getBalance());
+
+        RetailStore.displayProducts();
+        System.out.println("Your wallet balance is : " + UserOperations.PUser.getBalance());
 
         System.out.print("\nEnter the Product ID for purchasing: ");
         int pid = UserOperations.scanner.nextInt();
 
-        for (int i = 0; i < PurchaseDB.size(); i++) {
+        for (int i = 0; i < products.size(); i++) {
 
             Product p = products.get(i);
+
             double sellPrice = 0;
 
-            if(tmp.getMembership())
+            if(UserOperations.PUser.getMembership()) {
                 sellPrice = p.sellPrice - (p.sellPrice * discountRate);
+            }
             else
                 sellPrice = p.sellPrice;
 
             if (p.productID == pid) {
                 if (p.qty > 0 ) {
-                    if(!(tmp.getBalance() >= sellPrice))
+                    if(!(UserOperations.PUser.getBalance() >= sellPrice))
                         return -1;
 
-                    tmp.updateBalance(p.sellPrice);
+                    UserOperations.PUser.updateBalance(sellPrice,'-');
                     p.qty--;
 
-                    PurchaseDB.add(new PurchaseDetail(p, tmp.getUsername(),sellPrice));
+                    PurchaseDB.add(new PurchaseDetail(p, UserOperations.PUser.getUsername(),sellPrice));
                     return 1;
                 }
                 else {
@@ -158,25 +163,72 @@ public class RetailStore {
             }
         }
 
-        return pid;
+        return -2;
     }
 
     public static void purchaseDetail(){
 
-        tmp = (User) UserOperations.active;
+
         System.out.println("------------------ Purchase Detail -----------------------");
-        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate");
+        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
 
 
-        // It iterates through the books ArrayList and display all the books
         for (int i = 0; i < PurchaseDB.size(); i++) {
 
             PurchaseDetail pd = PurchaseDB.get(i);
 
-            if(tmp.getUsername() == pd.getUsername())
-                System.out.println(pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getReturnPeriod());
+            if(UserOperations.PUser.getUsername() == pd.getUsername())
+                System.out.println(pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+"\t"+ (pd.isReturned?pd.returnDate:"NULL"));
 
         }
+    }
+
+    public static boolean cancelPurchase(){
+        System.out.println("------------------ Purchase Detail -----------------------");
+        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
+
+        for (int i = 0; i < PurchaseDB.size(); i++) {
+
+            PurchaseDetail pd = PurchaseDB.get(i);
+            if(UserOperations.PUser.getUsername() == pd.getUsername() && !pd.isReturned)
+                System.out.println(pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+ "\t"+pd.returnDate);
+
+        }
+
+        System.out.print("\nEnter the Product ID for Cancel: ");
+        int pid = UserOperations.scanner.nextInt();
+
+        for (int i = 0; i < PurchaseDB.size(); i++) {
+
+            PurchaseDetail pd = PurchaseDB.get(i);
+            if(UserOperations.PUser.getUsername() == pd.getUsername() && !pd.isReturned && pd.productID == pid) {
+
+                pd.isReturned = true;
+                pd.returnDate = LocalDate.now();
+
+                System.out.println("Purchase cancelled successfully for PID : "+ pid);
+                UserOperations.PUser.updateBalance(pd.sellPrice,'+');
+
+                Product p;
+                for (int j = 0; j < products.size(); j++) {
+                    p = products.get(j);
+                    if(p.productID == pd.productID) {
+                        p.qty++;
+                        break;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        System.out.println("Invalid product ID");
+
+        return true;
+    }
+
+    public static void calculateFine(){
+        UserOperations.PAdmin.calculateFine(PurchaseDB);
     }
 
 }

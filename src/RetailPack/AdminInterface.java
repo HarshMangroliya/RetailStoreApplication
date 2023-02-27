@@ -1,7 +1,9 @@
 package RetailPack;
 
+import java.util.ArrayList;
+
 public interface AdminInterface {
 
-    void calculateFine(User customer, Product product);
+    void calculateFine(ArrayList<PurchaseDetail> PDb);
 
 }

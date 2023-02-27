@@ -29,8 +29,18 @@ public abstract class User extends ParentUser{
         return balance;
     }
 
-    public void updateBalance(double amt){
-        this.balance -= amt;
+    public void updateBalance(double amt,char sign){
+        switch (sign){
+            case '-':
+                this.balance -= amt;
+                break;
+            case '+':
+                this.balance += amt;
+                break;
+            default:
+                System.out.println("invalid input");
+        }
+
     }
 
     abstract double getDiscount();
