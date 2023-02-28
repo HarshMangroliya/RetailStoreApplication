@@ -114,6 +114,14 @@ public class RetailStore {
             profit += (tmp.getSellPrice() - tmp.getBasePrice()) * tmp.getQty();
         }
         System.out.println("Expected Profit is : "+profit);
+
+        double fine =0;
+
+        for(PurchaseDetail pd : PurchaseDB){
+            if(pd.isReturned && pd.fine!=0)
+                fine+=pd.fine;
+        }
+        System.out.println("Total fine is : "+fine);
     }
 
     public static void setDiscountRate(){
@@ -170,7 +178,7 @@ public class RetailStore {
 
 
         System.out.println("------------------ Purchase Detail -----------------------");
-        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
+        System.out.println("OrderID\tProduct ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
 
 
         for (int i = 0; i < PurchaseDB.size(); i++) {
@@ -178,14 +186,14 @@ public class RetailStore {
             PurchaseDetail pd = PurchaseDB.get(i);
 
             if(UserOperations.PUser.getUsername() == pd.getUsername())
-                System.out.println(pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+"\t"+ (pd.isReturned?pd.returnDate:"NULL"));
+                System.out.println(pd.cnt+"\t"+pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+"\t"+ (pd.isReturned?pd.returnDate:"NULL"));
 
         }
     }
 
-    public static boolean cancelPurchase(){
+    public static void cancelPurchase(){
         System.out.println("------------------ Purchase Detail -----------------------");
-        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
+        System.out.println("order ID\tProduct ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
 
         for (int i = 0; i < PurchaseDB.size(); i++) {
 
@@ -194,37 +202,38 @@ public class RetailStore {
                 System.out.println(pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+ "\t"+pd.returnDate);
 
         }
+        int limit =3;
+        while(limit-- != 0) {
+            System.out.print("\nEnter the Order ID for Cancel: ");
+            int oid = UserOperations.scanner.nextInt();
 
-        System.out.print("\nEnter the Product ID for Cancel: ");
-        int pid = UserOperations.scanner.nextInt();
+            for (int i = 0; i < PurchaseDB.size(); i++) {
 
-        for (int i = 0; i < PurchaseDB.size(); i++) {
+                PurchaseDetail pd = PurchaseDB.get(i);
+                if (UserOperations.PUser.getUsername() == pd.getUsername() && !pd.isReturned && pd.cnt == oid) {
 
-            PurchaseDetail pd = PurchaseDB.get(i);
-            if(UserOperations.PUser.getUsername() == pd.getUsername() && !pd.isReturned && pd.productID == pid) {
+                    pd.isReturned = true;
+                    pd.returnDate = LocalDate.now();
 
-                pd.isReturned = true;
-                pd.returnDate = LocalDate.now();
+                    System.out.println("Purchase cancelled successfully for OID : " + oid);
+                    UserOperations.PUser.updateBalance(pd.sellPrice, '+');
 
-                System.out.println("Purchase cancelled successfully for PID : "+ pid);
-                UserOperations.PUser.updateBalance(pd.sellPrice,'+');
-
-                Product p;
-                for (int j = 0; j < products.size(); j++) {
-                    p = products.get(j);
-                    if(p.productID == pd.productID) {
-                        p.qty++;
-                        break;
+                    Product p;
+                    for (int j = 0; j < products.size(); j++) {
+                        p = products.get(j);
+                        if (p.productID == pd.productID) {
+                            p.qty++;
+                            break;
+                        }
                     }
-                }
 
-                return false;
+                    return;
+                }
             }
+
+            System.out.println("Invalid Order ID");
         }
 
-        System.out.println("Invalid product ID");
-
-        return true;
     }
 
     public static void calculateFine(){
