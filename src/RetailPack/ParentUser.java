@@ -7,7 +7,7 @@ public abstract class ParentUser {
     public String password;
     // fullname of all the admin, customers
     public String fullname;
-    // usertype 0-Admin, 1-Customer
+    // usertype 1-Admin,2-Customer
     public int userType;
 
     // this method returns the username

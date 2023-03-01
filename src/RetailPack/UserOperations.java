@@ -258,6 +258,8 @@ public class UserOperations {
 
     public static boolean logout() {
         UserOperations.active = null;
+        UserOperations.PUser = null;
+        UserOperations.PAdmin = null;
         return true;
     }
 
