@@ -68,13 +68,13 @@ public class RetailStore {
 
     public static void adminDisplayProducts() {
         System.out.println("------------------ List of Products -----------------------");
-        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tbase price  \tSell price");
+        System.out.println("Product ID \tName  \tQuantity   \tReturnPeriod  \tbase price  \tSell price");
 
         // It iterates through the books ArrayList and display all the books
         for (int i = 0; i < products.size(); i++) {
 
             Product tmp = products.get(i);
-            System.out.println(tmp.getProductID()+"\t"+tmp.getProductName()+"\t"+ tmp.getQty()+"\t"+tmp.getReturnPeriod()+"\t"+tmp.getBasePrice()+"\t"+tmp.getSellPrice());
+            System.out.println(tmp.getProductID()+"\t\t\t"+tmp.getProductName()+"\t\t"+ tmp.getQty()+"\t\t\t"+tmp.getReturnPeriod()+"\t\t\t"+tmp.getBasePrice()+"\t\t\t"+tmp.getSellPrice());
 
         }
     }
@@ -84,7 +84,7 @@ public class RetailStore {
         boolean f1 = UserOperations.PUser.getMembership();
 
         System.out.println("------------------ List of Products -----------------------");
-        System.out.println("Product ID \tName  \tQty   \tReturnPeriod  \tSell price");
+        System.out.println("Product ID \tName  \tQuantity   \tReturnPeriod  \tSell price");
 
 
         // It iterates through the books ArrayList and display all the books
@@ -100,7 +100,7 @@ public class RetailStore {
             else
                 sellPrice = pro.sellPrice;
 
-            System.out.println(pro.getProductID()+"\t"+pro.getProductName()+"\t"+ pro.getQty()+"\t"+pro.getReturnPeriod()+"\t"+sellPrice);
+           System.out.println(pro.getProductID()+"\t\t\t"+pro.getProductName()+"\t\t"+ pro.getQty()+"\t\t\t"+pro.getReturnPeriod()+"\t\t\t"+sellPrice);
 
         }
     }
@@ -178,7 +178,7 @@ public class RetailStore {
 
 
         System.out.println("------------------ Purchase Detail -----------------------");
-        System.out.println("OrderID\tProduct ID \tName  \tQty   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
+        System.out.println("OrderID\tProduct ID \tName  \tQuantity   \tReturnPeriod  \tSell price  \tIssuedate   \tReturn Date"  );
 
 
         for (int i = 0; i < PurchaseDB.size(); i++) {
@@ -186,7 +186,7 @@ public class RetailStore {
             PurchaseDetail pd = PurchaseDB.get(i);
 
             if(UserOperations.PUser.getUsername() == pd.getUsername())
-                System.out.println(pd.cnt+"\t"+pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+"\t"+ (pd.isReturned?pd.returnDate:"NULL"));
+                System.out.println(pd.cnt+"\t\t\t"+pd.getProductID()+"\t\t\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t\t\t"+pd.getReturnPeriod()+"\t\t\t"+pd.getSellPrice()+"\t\t\t"+pd.getIssueDate()+"\t\t\t"+ (pd.isReturned?pd.returnDate:"NULL"));
 
         }
     }
@@ -199,7 +199,7 @@ public class RetailStore {
 
             PurchaseDetail pd = PurchaseDB.get(i);
             if(UserOperations.PUser.getUsername() == pd.getUsername() && !pd.isReturned)
-                System.out.println(pd.getProductID()+"\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t"+pd.getReturnPeriod()+"\t"+pd.getSellPrice()+"\t"+pd.getIssueDate()+ "\t"+pd.returnDate);
+                System.out.println(pd.cnt+"\t\t\t"+pd.getProductID()+"\t\t\t"+pd.getProductName()+"\t"+ pd.getQty()+"\t\t\t"+pd.getReturnPeriod()+"\t\t\t"+pd.getSellPrice()+"\t\t\t"+pd.getIssueDate()+ "\t\t\t"+pd.returnDate);
 
         }
         int limit =3;

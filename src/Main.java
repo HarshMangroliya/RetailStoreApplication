@@ -7,8 +7,8 @@ public class Main {
         UserOperations.users.put("m",new Member("m", "m", "Member bhai", true, 1000,2));
         UserOperations.users.put("nm",new NonMemeber("nm", "nm", "Non-Member bhai", false, 1000,2));
 
-        RetailStore.products.add(new Product(101,"Appl",4,5,95,100));
-        RetailStore.products.add(new Product(102,"Ball",6,9,5,10));
+        RetailStore.products.add(new Product(101,"Appl12",4,5,95,100));
+        RetailStore.products.add(new Product(102,"Ball",  6,9,5, 100));
         RetailStore.products.add(new Product(103,"Cupp",8,3,15,30));
         RetailStore.products.add(new Product(104,"Doll",10,15,25,50));
 
